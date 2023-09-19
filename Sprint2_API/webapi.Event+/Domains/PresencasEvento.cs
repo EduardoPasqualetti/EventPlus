@@ -9,12 +9,12 @@ namespace webapi.Event_.Domains
         [Key]
         public Guid IdPresencaEvento { get; set; } = Guid.NewGuid();
 
-        [Column(TypeName ="TEXT")]
-        [Required(ErrorMessage ="campo obrigatorio")]
-        public string Sobre { get; set; }
+        [Column(TypeName ="BIT")]
+        [Required(ErrorMessage ="Campo obrigatorio")]
+        public bool Situacao { get; set; }
 
         // referencia usuario
-        [Required(ErrorMessage ="Id do Usuario obrigatorio")]
+        [Required(ErrorMessage ="Usuario obrigatorio")]
         public Guid IdUsuario { get; set; }
 
 
