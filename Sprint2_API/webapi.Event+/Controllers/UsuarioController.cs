@@ -33,5 +33,36 @@ namespace webapi.Event_.Controllers
             }
 
         }
+
+
+        [HttpGet("{id}")]
+        public IActionResult BuscarPorId(Guid id)
+        {
+            try
+            {
+               
+                return Ok(_usuario.BuscarPorId(id));
+                
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult BuscarPorcorpo(string email,string senha)
+        {
+            try
+            {
+                return Ok(_usuario.BuscarPorCorpo(email, senha));
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

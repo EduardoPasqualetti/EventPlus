@@ -17,7 +17,19 @@ namespace webapi.Event_.Repositories
         }
         public Usuario BuscarPorCorpo(string email, string senha)
         {
-            Usuario usuario = _eventContext.Usuario.FirstOrDefault(u => u.Email == email)!;
+            Usuario usuario = _eventContext.Usuario
+                 .Select(u => new Usuario
+                 {
+                     IdUsuario = u.IdUsuario,
+                     Nome = u.Nome,
+                     Email = u.Email,
+                     Senha = u.Senha,
+                     TipoUsuario = new TiposUsuario
+                     {
+                         IdTipoUsuario= u.IdTipoUsuario,
+                         Titulo = u.TipoUsuario!.Titulo
+                     }
+                 }).FirstOrDefault(u => u.Email == email)!;
 
             if (usuario != null)
             {
@@ -40,6 +52,7 @@ namespace webapi.Event_.Repositories
                      {
                            IdUsuario = u.IdUsuario,
                            Nome= u.Nome,
+                           Email= u.Email,
                            TipoUsuario= new TiposUsuario
                            {
                                Titulo = u.TipoUsuario!.Titulo

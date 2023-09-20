@@ -25,7 +25,7 @@ namespace webapi.Event_.Repositories
 
         public TiposUsuario BuscarPorId(Guid id)
         {
-            return _eventContext.TiposUsuario.FirstOrDefault(x => x.IdTipoUsuario == id)!;
+             return _eventContext.TiposUsuario.FirstOrDefault(x => x.IdTipoUsuario == id)!;
         }
 
         public void Cadastrar(TiposUsuario tipoUsuario)

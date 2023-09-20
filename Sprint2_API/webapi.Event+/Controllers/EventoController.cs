@@ -9,23 +9,22 @@ namespace webapi.Event_.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
-    public class TiposUsuarioController : ControllerBase
+    public class EventoController : ControllerBase
     {
-        private ITiposUsuarioRepository _tiposUsuario;
-        
-        public TiposUsuarioController()
+        private IEventoRepository _evento;
+
+        public EventoController()
         {
-            _tiposUsuario = new TiposUsuarioRepository();
+            _evento = new EventoRepository();
         }
 
         [HttpPost]
-        public IActionResult Post(TiposUsuario tipoUsuario)
+        public IActionResult Post(Evento evento)
         {
             try
             {
-                _tiposUsuario.Cadastrar(tipoUsuario);
-
-                return StatusCode(201);
+                _evento.Cadastrar(evento);
+                return StatusCode(201); 
             }
             catch (Exception e)
             {
@@ -39,7 +38,7 @@ namespace webapi.Event_.Controllers
         {
             try
             {
-                return Ok(_tiposUsuario.Listar());
+                return Ok(_evento.Listar());
             }
             catch (Exception e)
             {
@@ -53,10 +52,10 @@ namespace webapi.Event_.Controllers
         {
             try
             {
-                _tiposUsuario.Deletar(id);
+                _evento.Deletar(id);
                 return Ok();
             }
-            catch (Exception e)
+            catch (Exception e) 
             {
 
                 return BadRequest(e.Message);
@@ -68,27 +67,29 @@ namespace webapi.Event_.Controllers
         {
             try
             {
-                return Ok(_tiposUsuario.BuscarPorId(id));
+                return Ok(_evento.BuscarPorId(id));
             }
             catch (Exception e)
             {
+
                 return BadRequest(e.Message);
             }
         }
 
         [HttpPut]
-        public IActionResult Atualizar(Guid id,TiposUsuario tipoUsuario)
+        public IActionResult Put(Guid id, Evento evento)
         {
             try
             {
-                _tiposUsuario.Atualizar(id, tipoUsuario);
+                _evento.Atualizar(id, evento);
                 return NoContent();
-
             }
             catch (Exception e)
             {
+
                 return BadRequest(e.Message);
             }
         }
+        
     }
 }
