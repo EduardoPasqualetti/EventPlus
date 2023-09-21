@@ -35,29 +35,30 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-options.SwaggerDoc("v1", new OpenApiInfo
-{
-    Version = "v1",
-    Title = "API InLock Manha",
-    Description = " API para gerenciamento de jogos - Projeto da sprint 2 - Backend API",
-    Contact = new OpenApiContact
+    options.SwaggerDoc("v1", new OpenApiInfo
     {
-        Name = "Eduardo Pasqualetti",
-        Url = new Uri("https://github.com/EduardoPasqualetti")
-    }
-});
+        Version = "v1",
+        Title = "API InLock Manha",
+        Description = " API para gerenciamento de jogos - Projeto da sprint 2 - Backend API",
+        Contact = new OpenApiContact
+        {
+            Name = "Eduardo Pasqualetti",
+            Url = new Uri("https://github.com/EduardoPasqualetti")
+        }
+    });
 
 
-options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-{
-    Name = "Authorization",
-    Type = SecuritySchemeType.ApiKey,
-    Scheme = "Bearer",
-    BearerFormat = "JWT",
-    In = ParameterLocation.Header,
-    Description = "Value: Bearer TokenJWT ",
-});
-options.AddSecurityRequirement(new OpenApiSecurityRequirement
+
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Value: Bearer TokenJWT ",
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
@@ -72,6 +73,7 @@ options.AddSecurityRequirement(new OpenApiSecurityRequirement
         }
 
     });
+});
 
 
 var app = builder.Build();

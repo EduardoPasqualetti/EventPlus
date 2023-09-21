@@ -7,7 +7,7 @@ namespace webapi.Event_.Interfaces
         void Cadastrar(PresencasEvento presenca);
         void Deletar(Guid id);
         List<PresencasEvento> Listar();
-        TiposUsuario BuscarPorId(Guid id);
         void Atualizar(Guid id, PresencasEvento presenca);
+        List<PresencasEvento> ListarMinhas(Guid id);
     }
 }

@@ -1,28 +1,37 @@
-﻿using webapi.Event_.Domains;
+﻿using webapi.Event_.Contexts;
+using webapi.Event_.Domains;
 using webapi.Event_.Interfaces;
 
 namespace webapi.Event_.Repositories
 {
     public class ComentariosEventoRepository : IComentariosEventoRepository
     {
+        private readonly EventContext _eventContext;
+        public ComentariosEventoRepository()
+        {
+            _eventContext= new EventContext();  
+        }
         public ComentariosEvento BuscarPorId(Guid id)
         {
-            throw new NotImplementedException();
+            return _eventContext.ComentariosEventos.FirstOrDefault(x => x.IdComentarioEvento == id)!;
         }
 
         public void Cadastrar(ComentariosEvento comentario)
         {
-            throw new NotImplementedException();
+            _eventContext.ComentariosEventos.Add(comentario);
+            _eventContext.SaveChanges();
         }
 
         public void Deletar(Guid id)
         {
-            throw new NotImplementedException();
+            ComentariosEvento comentario = _eventContext.ComentariosEventos.Find(id)!;
+            _eventContext.ComentariosEventos.Remove(comentario);
+            _eventContext.SaveChanges();
         }
 
         public List<ComentariosEvento> Listar()
         {
-            throw new NotImplementedException();
+           return _eventContext.ComentariosEventos.ToList();
         }
     }
 }
