@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using webapi.Event_.Domains;
 using webapi.Event_.Interfaces;
@@ -19,6 +20,7 @@ namespace webapi.Event_.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles ="Administrador")]
         public IActionResult Post(TiposUsuario tipoUsuario)
         {
             try

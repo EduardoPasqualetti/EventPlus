@@ -17,6 +17,10 @@ namespace webapi.Event_.Repositories
             if (buscado != null)
             {
                 buscado.NomeEvento = evento.NomeEvento;
+                buscado.DataEvento = evento.DataEvento;
+                buscado.Descricao = evento.Descricao;
+                buscado.IdTipoEvento = evento.IdTipoEvento;
+                buscado.IdInstituicao = evento.IdInstituicao;
             }
             _eventContext.Update(buscado!);
             _eventContext.SaveChanges();

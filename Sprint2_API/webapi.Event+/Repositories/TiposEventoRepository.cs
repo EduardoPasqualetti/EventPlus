@@ -10,7 +10,7 @@ namespace webapi.Event_.Repositories
 
         public TiposEventoRepository()
         {
-            _eventContext= new EventContext();
+            _eventContext = new EventContext();
         }
         public void Atualizar(Guid id, TiposEvento tipoEvento)
         {
@@ -26,7 +26,7 @@ namespace webapi.Event_.Repositories
 
         public TiposEvento BuscarPorId(Guid id)
         {
-           return  _eventContext.TiposEvento.FirstOrDefault(e => e.IdTipoEvento == id)!;
+            return _eventContext.TiposEvento.FirstOrDefault(e => e.IdTipoEvento == id)!;
         }
 
         public void Cadastrar(TiposEvento tipoEvento)

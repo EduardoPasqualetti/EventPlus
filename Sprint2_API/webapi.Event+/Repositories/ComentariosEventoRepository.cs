@@ -1,4 +1,5 @@
-﻿using webapi.Event_.Contexts;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using webapi.Event_.Contexts;
 using webapi.Event_.Domains;
 using webapi.Event_.Interfaces;
 
@@ -9,7 +10,7 @@ namespace webapi.Event_.Repositories
         private readonly EventContext _eventContext;
         public ComentariosEventoRepository()
         {
-            _eventContext= new EventContext();  
+            _eventContext = new EventContext();
         }
         public ComentariosEvento BuscarPorId(Guid id)
         {
@@ -31,7 +32,8 @@ namespace webapi.Event_.Repositories
 
         public List<ComentariosEvento> Listar()
         {
-           return _eventContext.ComentariosEventos.ToList();
+            return _eventContext.ComentariosEventos.Where(e => e.Exibe == true).ToList();
+
         }
     }
 }

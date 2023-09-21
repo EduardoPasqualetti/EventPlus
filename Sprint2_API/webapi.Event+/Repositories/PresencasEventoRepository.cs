@@ -14,12 +14,12 @@ namespace webapi.Event_.Repositories
         }
         public void Atualizar(Guid id, PresencasEvento presenca)
         {
-            PresencasEvento presencaEvento = _eventContext.PresencasEvento.Find(id);
+            PresencasEvento presencaEvento = _eventContext.PresencasEvento.Find(id)!;
             if (presencaEvento != null)
             {
                 presencaEvento.Situacao = presenca.Situacao;
             }
-            _eventContext.PresencasEvento.Update(presencaEvento);
+            _eventContext.PresencasEvento.Update(presencaEvento!);
             _eventContext.SaveChanges();
         }
 
@@ -31,7 +31,7 @@ namespace webapi.Event_.Repositories
 
         public void Deletar(Guid id)
         {
-            PresencasEvento presenca = _eventContext.PresencasEvento.Find(id);
+            PresencasEvento presenca = _eventContext.PresencasEvento.Find(id)!;
             _eventContext.PresencasEvento.Remove(presenca);
             _eventContext.SaveChanges();
         }
@@ -43,15 +43,8 @@ namespace webapi.Event_.Repositories
 
         public List<PresencasEvento> ListarMinhas(Guid id)
         {
-            PresencasEvento presenca = new PresencasEvento();
-
-            if (presenca.IdPresencaEvento == id)
-            {
-                return _eventContext.PresencasEvento.ToList();
-                
-            }
-            return null;
-           
+            return _eventContext.PresencasEvento
+                .Where(x => x.IdUsuario == id).ToList();    
         }
     }
 }
