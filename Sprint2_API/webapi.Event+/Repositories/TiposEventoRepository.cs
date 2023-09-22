@@ -45,7 +45,9 @@ namespace webapi.Event_.Repositories
 
         public List<TiposEvento> Listar()
         {
-            return _eventContext.TiposEvento.ToList();
+            List<TiposEvento> list = _eventContext.TiposEvento.ToList();
+            return list;
         }
+
     }
 }

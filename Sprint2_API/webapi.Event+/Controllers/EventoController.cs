@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using webapi.Event_.Domains;
 using webapi.Event_.Interfaces;
 using webapi.Event_.Repositories;
@@ -19,6 +21,7 @@ namespace webapi.Event_.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Post(Evento evento)
         {
             try
@@ -34,6 +37,7 @@ namespace webapi.Event_.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador,Comum")]
         public IActionResult Get()
         {
             try
@@ -48,6 +52,7 @@ namespace webapi.Event_.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Delete(Guid id)
         {
             try
@@ -63,6 +68,7 @@ namespace webapi.Event_.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Administrador,Comum")]
         public IActionResult Buscar(Guid id)
         {
             try
@@ -77,6 +83,7 @@ namespace webapi.Event_.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Put(Guid id, Evento evento)
         {
             try

@@ -44,7 +44,7 @@ namespace webapi.Event_.Repositories
         public List<PresencasEvento> ListarMinhas(Guid id)
         {
             return _eventContext.PresencasEvento
-                .Where(x => x.IdUsuario == id).ToList();    
+                .Where(x => x.IdUsuario == id).ToList();
         }
     }
 }

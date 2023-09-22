@@ -37,6 +37,7 @@ namespace webapi.Event_.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrador,Comum")]
         public IActionResult Get()
         {
             try
@@ -51,6 +52,7 @@ namespace webapi.Event_.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Delete(Guid id)
         {
             try
@@ -66,6 +68,7 @@ namespace webapi.Event_.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Administrador,Comum")]
         public IActionResult Buscar(Guid id)
         {
             try
@@ -79,6 +82,7 @@ namespace webapi.Event_.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Atualizar(Guid id,TiposUsuario tipoUsuario)
         {
             try

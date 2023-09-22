@@ -9,5 +9,6 @@ namespace webapi.Event_.Interfaces
         List<TiposEvento> Listar();
         TiposEvento BuscarPorId(Guid id);
         void Atualizar(Guid id, TiposEvento tipoEvento);
+
     }
 }

@@ -80,3 +80,5 @@ C:\Users\49802002810\Desktop\EventPlus\Sprint2_API\webapi.Event+\obj\Debug\net7.
 C:\Users\49802002810\Desktop\EventPlus\Sprint2_API\webapi.Event+\obj\Debug\net7.0\webapi.Event+.pdb
 C:\Users\49802002810\Desktop\EventPlus\Sprint2_API\webapi.Event+\obj\Debug\net7.0\webapi.Event+.genruntimeconfig.cache
 C:\Users\49802002810\Desktop\EventPlus\Sprint2_API\webapi.Event+\obj\Debug\net7.0\ref\webapi.Event+.dll
+C:\Users\49802002810\Desktop\EventPlus\Sprint2_API\webapi.Event+\bin\Debug\net7.0\webapi.Event+.xml
+C:\Users\49802002810\Desktop\EventPlus\Sprint2_API\webapi.Event+\obj\Debug\net7.0\webapi.Event+.xml
