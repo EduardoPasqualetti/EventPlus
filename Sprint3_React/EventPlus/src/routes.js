@@ -6,8 +6,9 @@ import HomePage from "./pages/HomePage/HomePage";
 import TipoEventos from "./pages/TipoEventosPage/TipoEventosPage";
 import Contatos from "./pages/ContatosPage/ContatosPage"
 import Login from "./pages/LoginPage/LoginPage"
-import Header from "./componentes/Header/Header"
 import Teste from "./pages/TestePage/TestePage"
+import Header from "./componentes/Header/Header"
+import Footer from "./componentes/Footer/Footer"
 
 const Rotas = () => {
   return (
@@ -21,6 +22,7 @@ const Rotas = () => {
         <Route element={<Login />} path={"/login"} />
         <Route element={<Teste />} path={"/teste"}/>
       </Routes>
+     <Footer /> 
     </BrowserRouter>
   );
 };

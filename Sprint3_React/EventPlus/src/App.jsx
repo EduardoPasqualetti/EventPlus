@@ -1,5 +1,3 @@
-
-import './App.css';
 import Rotas from "./routes"
 
 const App = () => <Rotas />
