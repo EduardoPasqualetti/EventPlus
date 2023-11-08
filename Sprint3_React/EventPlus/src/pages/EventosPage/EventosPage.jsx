@@ -1,10 +1,13 @@
 import React from 'react';
-import './EventosPage.css'
+import Header from '../../components/Header/Header';
+import Titulo from '../../components/Titulo/Titulo';
+import './EventosPage.css';
 
 const EventosPage = () => {
     return (
         <div>
-            <h1>Tela de Eventos</h1>
+            <Header />
+            <Titulo  titleText={"Eventos Page"} className = "margem_acima"/>
         </div>
     );
 };
