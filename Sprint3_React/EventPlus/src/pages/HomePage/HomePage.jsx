@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import "./HomePage.css";
 import Banner from "../../components/Banner/Banner";
 import MainContent from "../../components/Main/MainContent";
@@ -8,14 +7,15 @@ import ContactSection from "../../components/ContactSection/ContactSection";
 import NextEvent from "../../components/NextEvent/NextEvent";
 import Container from "../../components/Container/Container";
 import Titulo from "../../components/Titulo/Titulo";
+import api from "../../Services/Service";
+import { nextEventsResource } from "../../Services/Service";
 
 const HomePage = () => {
   const [nextEvents, setNextEvents] = useState([]);
-  const urlLocal = "https://localhost:7118/api";
   useEffect(() => {
     async function getNextEvents() {
       try {
-        const promisse = await axios.get(`${urlLocal}/Evento/ListarProximos`);
+        const promisse = await api.get(nextEventsResource);
         const dados = await promisse.data;
 
         setNextEvents(dados);

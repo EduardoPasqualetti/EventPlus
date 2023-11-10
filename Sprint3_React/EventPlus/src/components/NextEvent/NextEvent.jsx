@@ -1,28 +1,38 @@
 import React from "react";
 import "./NextEvent.css";
+import { dateFormatDbTOView } from "../../Utils/stringFunctions";
+import { Tooltip } from "react-tooltip";
 
 const NextEvent = ({ title, description, eventDate, idEvento }) => {
   function conectar() {
     alert(`Chamar o recurso para conectar: ${idEvento}`);
   }
   return (
-        <article className="event-card">
-          <h2 className="event-card__title">{title}</h2>
+    <article className="event-card">
+      <h2 className="event-card__title">{title}</h2>
 
-          <p className="event-card__description">{description}</p>
+      <p
+        className="event-card__description"
+        data-tooltip-id={idEvento}
+        data-tooltip-content={description}
+        data-tooltip-place="top"
+      >
+        <Tooltip id={idEvento} className="tooltip" />
+        {description.substr(0, 15)}
+      </p>
 
-          <p className="event-card__description">{eventDate}</p>
+      <p className="event-card__description">{dateFormatDbTOView(eventDate)}</p>
 
-          <a
-            href=""
-            onClick={() => {
-              conectar(idEvento);
-            }}
-            className="event-card__connect-link"
-          >
-            Conectar
-          </a>
-        </article>
+      <a
+        href=""
+        onClick={() => {
+          conectar(idEvento);
+        }}
+        className="event-card__connect-link"
+      >
+        Conectar
+      </a>
+    </article>
   );
 };
 

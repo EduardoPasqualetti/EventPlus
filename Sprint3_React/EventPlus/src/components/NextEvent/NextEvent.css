@@ -9,7 +9,7 @@
 }
 
 
-.tootip {
+.tooltip {
     color: #fff !important;
     background-color: #B51D44 !important;
   }
@@ -35,7 +35,7 @@
 
 .event-card__description {
     font-family: Poppins-Regular;
-    font-size: 1rem;
+    font-size: 15px;
     text-align: center;
     margin-bottom: 25px;
 }
@@ -68,4 +68,5 @@
       width: 220px;
       height: 220px;
     }
+    
   }
