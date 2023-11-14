@@ -13,7 +13,7 @@ export const nextEventsResource = 'Evento/ListarProximos'
 /** 
 * Route for Type of Event
 */
-export const eventsTypeResource = 'TiposEvento'
+export const eventsTypeResource = '/TiposEvento'
 
 
 

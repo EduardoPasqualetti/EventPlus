@@ -6,10 +6,10 @@ export const Input = ({
   id,
   value,
   required,
-  additionalCLass,
   name,
   placeholder,
   manipulationFunction,
+  additionalCLass = ""
 }) => {
   return (
     <input
@@ -36,15 +36,15 @@ export const Button = ({
   id,
   type,
   manipulationFunction,
+  additionalClass = ""
 }) => {
   return (
-    <button id={id} name={name} type={type} onClick={manipulationFunction}>
+    <button id={id} name={name} type={type} onClick={manipulationFunction} className={`button-component ${additionalClass}`}>
       {textButton}
     </button>
   );
 };
 
-options = [{value: "amvwoqqqnf", text:"JavaScript"}]
 
 export const Select = ({
   required,
