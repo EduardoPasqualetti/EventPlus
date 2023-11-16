@@ -14,21 +14,23 @@ const TipoEventos = () => {
   const [titulo, setTitulo] = useState();
   const [tipoEventos, setTipoEventos] = useState([]);
 
+  // LISTAR OS TIPOS DE EVENTO
   useEffect(() => {
     async function loadEventsType() {
 
       try {
         const retorno = await api.get(eventsTypeResource);
         setTipoEventos(retorno.data)
-        console.log(retorno.data);
 
       } catch (error) {
         console.log(error)
       }
     }
     loadEventsType();
-  }, [])
+  }, [tipoEventos])
 
+
+  // TELA DE CADASTRO
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -49,7 +51,7 @@ const TipoEventos = () => {
   }
 
 
-
+// TELA DE ATUALIZAR
   function handleUpdate() {
     alert("tela de edit");
   }
@@ -64,9 +66,22 @@ const TipoEventos = () => {
     alert(`Mostrar o formulario de edicao`)
   }
 
-  // apaga o tipo de evento na api
-  function handleDelete(idElement) {
-    alert(`apagar o evento do id: ${idElement}`)
+  // apaga o tipo de   evento na api
+  async function handleDelete(idTipoEvento) {
+
+    if (window.confirm("Deseja realmente excluir ?")) {
+      try {
+        const promisse = await api.delete(`${eventsTypeResource}/${idTipoEvento}`)
+        
+        if (promisse.status == 204) {
+          alert("Cadastro apagado com sucesso!")
+        }
+      } catch (error) {
+        console.log("Deu erro ai", error);
+      }
+    }
+
+
   }
 
   return (

@@ -1,10 +1,10 @@
 import React from "react";
-import './TableTp.css'
+import "./TableTp.css";
 
-import edtiPen from "../../../assets/images/edit-pen.svg"
-import trashDelete from "../../../assets/images/trash-delete.svg"
+import editPen from "../../../assets/images/edit-pen.svg";
+import trashDelete from "../../../assets/images/trash-delete.svg";
 
-const TableTP = ({dados, fnUpdate, fnDelete}) => {
+const Table = ({ dados, fnDelete = null, fnUpdate = null }) => {
   return (
     <table className="table-data">
       <thead className="table-data__head">
@@ -20,30 +20,38 @@ const TableTP = ({dados, fnUpdate, fnDelete}) => {
           </th>
         </tr>
       </thead>
+
       <tbody>
         {dados.map((tp) => {
           return (
             <tr className="table-data__head-row">
-            <td className="table-data__data table-data__data--big">
-              Texto do tipo
-            </td>
-  
-            <td className="table-data__data table-data__data--little">
-              <img className="table-data__icon" src={edtiPen} alt="" />
-            </td>
-  
-            <td className="table-data__data table-data__data--little">
-              <img className="table-data__icon" src={trashDelete} alt="" />
-            </td>
-          </tr>
-          )
-        })
-        }
+              <td className="table-data__data table-data__data--big">
+                {tp.titulo}
+              </td>
 
+              <td className="table-data__data table-data__data--little">
+                <img
+                  className="table-data__icon"
+                  src={editPen}
+                  alt=""
+                  onClick={() => fnUpdate(tp.idTipoEvento)}
+                />
+              </td>
+
+              <td className="table-data__data table-data__data--little">
+                <img
+                  className="table-data__icon"
+                  src={trashDelete}
+                  alt=""
+                  onClick={() => fnDelete(tp.idTipoEvento)}
+                />
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
 };
 
-export default TableTP;
-
+export default Table;
