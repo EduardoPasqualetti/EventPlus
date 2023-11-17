@@ -6,9 +6,9 @@ import Container from "../../components/Container/Container";
 import ImageIlustrator from "../../components/ImageIlustrator/ImageIlustrator";
 import tipoEventoImage from "../../assets/images/tipo-evento.svg";
 import { Input, Button } from "../../components/FormComponents/FormComponents";
-import api, {eventsTypeResource} from "../../Services/Service";
-import Table from "./TableTp/TableTp"
-import Notifcation from "../../components/Notification/Notification"
+import api, { eventsTypeResource } from "../../Services/Service";
+import Table from "./TableTp/TableTp";
+import Notifcation from "../../components/Notification/Notification";
 
 const TipoEventos = () => {
   const [frmEdit, setFrmEdit] = useState(false);
@@ -19,18 +19,15 @@ const TipoEventos = () => {
   // LISTAR OS TIPOS DE EVENTO
   useEffect(() => {
     async function loadEventsType() {
-
       try {
         const retorno = await api.get(eventsTypeResource);
-        setTipoEventos(retorno.data)
-
+        setTipoEventos(retorno.data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
     loadEventsType();
-  }, [])
-
+  }, []);
 
   // TELA DE CADASTRO
   async function handleSubmit(e) {
@@ -42,75 +39,84 @@ const TipoEventos = () => {
 
     try {
       const retorno = await api.post(eventsTypeResource, {
-        titulo:titulo
-      })
+        titulo: titulo,
+      });
 
-      const buscaEventos = await api.get(eventsTypeResource)
-          
-      setTipoEventos(buscaEventos.data)
-      
+      const buscaEventos = await api.get(eventsTypeResource);
+
+      setTipoEventos(buscaEventos.data);
+
       setNotifyUser({
         titleNote: "Sucesso",
         textNote: `${titulo} Cadastrado com sucesso`,
         imgIcon: "success",
-        imgAlt: "Imagem de ilustracao de sucesso. Moca segurando um balao com simbolo de confirmacao ok",
-        showMessage: true
+        imgAlt:
+          "Imagem de ilustracao de sucesso. Moca segurando um balao com simbolo de confirmacao ok",
+        showMessage: true,
       });
-
     } catch (error) {
-      alert("Deu ruim no submit")
+      alert("Deu ruim no submit");
     }
-
   }
 
+  // TELA DE ATUALIZAR
+  function handleUpdate(e) {
+    e.preventDefault();
+    setShowSpinner(true)
 
-// TELA DE ATUALIZAR
-  function handleUpdate() {
-    alert("tela de edit");
-  }
-
-  // cancela a tela/acao de edicao (volta para o form de cadastro)
-  function editActionAbort() {
-    alert(`Cancelar a tela de edicao de dados`)
+    const idTipoEvento = frmEditData.idTipoEvento 
   }
 
   // mostra o formulario de edicao
-  function showUpdateForm() {
-    alert(`Mostrar o formulario de edicao`)
+  async function showUpdateForm(tipoEvento) {
+    setFrmEdit(true)
+
+    try {
+      const retorno = await api.get(`${eventsTypeResource}/${idElement}`)
+      setTitulo(retorno.data.titulo)
+      console.log(retorno.data)
+    } catch (error) {
+      
+    }
   }
+
+    // cancela a tela/acao de edicao (volta para o form de cadastro)
+    function editActionAbort() {
+      setFrmEdit(false)
+      setTitulo("")
+    }
 
   // apaga o tipo de   evento na api
   async function handleDelete(idTipoEvento, titulo) {
-
     if (window.confirm("Deseja realmente excluir ?")) {
       try {
-        const promisse = await api.delete(`${eventsTypeResource}/${idTipoEvento}`)
-        
-        if (promisse.status == 204) {
+        const promisse = await api.delete(
+          `${eventsTypeResource}/${idTipoEvento}`
+        );
 
-          const buscaEventos = await api.get(eventsTypeResource)
-          
-          setTipoEventos(buscaEventos.data)
+        if (promisse.status == 204) {
+          const buscaEventos = await api.get(eventsTypeResource);
+
+          setTipoEventos(buscaEventos.data);
 
           setNotifyUser({
             titleNote: "Sucesso",
             textNote: `${titulo} excluido com sucesso`,
             imgIcon: "success",
-            imgAlt: "Imagem de ilustracao de sucesso. Moca segurando um balao com simbolo de confirmacao ok",
-            showMessage: true
+            imgAlt:
+              "Imagem de ilustracao de sucesso. Moca segurando um balao com simbolo de confirmacao ok",
+            showMessage: true,
           });
         }
       } catch (error) {
         console.log("Deu erro ai", error);
       }
     }
-
-
   }
 
   return (
     <>
-    {<Notifcation {...notifyUser} setNotifyUser={setNotifyUser}/>}
+      {<Notifcation {...notifyUser} setNotifyUser={setNotifyUser} />}
       <MainContent>
         <section className="cadastro-evento-section">
           <Container>
@@ -148,19 +154,43 @@ const TipoEventos = () => {
                 ) : (
                   //Editar
                   <>
-                    <p>Tela de Edicao</p>
+                    <Input
+                      id="Titulo"
+                      placeholder="Titulo"
+                      name={"titulo"}
+                      type={"text"}
+                      required={"required"}
+                      value={titulo}
+                      manipulationFunction={(e) => {
+                        setTitulo(e.target.value);
+                      }}
+                    />
+                    <div className="buttons-editbox">
+                    <Button
+                      textButton="Atualizar"
+                      id="Atualizar"
+                      name="Atualizar"
+                      type="submit"
+                    />
+                    <Button
+                      textButton="Cancelar"
+                      id="cancelar"
+                      name="cancelar"
+                      type="submit"
+                      manipulationFunction={editActionAbort}
+                    />
+                    </div>
                   </>
                 )}
               </form>
-
             </div>
           </Container>
         </section>
         <section className="lista-eventos-section">
           <Container>
-            <Title titleText={"Lista tipo de eventos"} color="white"/>
+            <Title titleText={"Lista tipo de eventos"} color="white" />
             <Table
-            dados={tipoEventos}
+              dados={tipoEventos}
               fnUpdate={showUpdateForm}
               fnDelete={handleDelete}
             />
