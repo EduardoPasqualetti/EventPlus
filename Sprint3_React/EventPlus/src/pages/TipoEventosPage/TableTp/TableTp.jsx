@@ -24,7 +24,7 @@ const Table = ({ dados, fnDelete = null, fnUpdate = null }) => {
       <tbody>
         {dados.map((tp) => {
           return (
-            <tr className="table-data__head-row">
+            <tr className="table-data__head-row" key={tp.idTipoEvento}>
               <td className="table-data__data table-data__data--big">
                 {tp.titulo}
               </td>
@@ -43,7 +43,7 @@ const Table = ({ dados, fnDelete = null, fnUpdate = null }) => {
                   className="table-data__icon"
                   src={trashDelete}
                   alt=""
-                  onClick={() => fnDelete(tp.idTipoEvento)}
+                  onClick={() => fnDelete(tp.idTipoEvento, tp.titulo)}
                 />
               </td>
             </tr>

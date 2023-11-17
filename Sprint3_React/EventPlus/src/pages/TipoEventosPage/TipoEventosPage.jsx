@@ -8,11 +8,13 @@ import tipoEventoImage from "../../assets/images/tipo-evento.svg";
 import { Input, Button } from "../../components/FormComponents/FormComponents";
 import api, {eventsTypeResource} from "../../Services/Service";
 import Table from "./TableTp/TableTp"
+import Notifcation from "../../components/Notification/Notification"
 
 const TipoEventos = () => {
   const [frmEdit, setFrmEdit] = useState(false);
   const [titulo, setTitulo] = useState();
   const [tipoEventos, setTipoEventos] = useState([]);
+  const [notifyUser, setNotifyUser] = useState();
 
   // LISTAR OS TIPOS DE EVENTO
   useEffect(() => {
@@ -27,7 +29,7 @@ const TipoEventos = () => {
       }
     }
     loadEventsType();
-  }, [tipoEventos])
+  }, [])
 
 
   // TELA DE CADASTRO
@@ -42,7 +44,18 @@ const TipoEventos = () => {
       const retorno = await api.post(eventsTypeResource, {
         titulo:titulo
       })
-      alert("Cadastrado com sucesso")
+
+      const buscaEventos = await api.get(eventsTypeResource)
+          
+      setTipoEventos(buscaEventos.data)
+      
+      setNotifyUser({
+        titleNote: "Sucesso",
+        textNote: `${titulo} Cadastrado com sucesso`,
+        imgIcon: "success",
+        imgAlt: "Imagem de ilustracao de sucesso. Moca segurando um balao com simbolo de confirmacao ok",
+        showMessage: true
+      });
 
     } catch (error) {
       alert("Deu ruim no submit")
@@ -67,14 +80,25 @@ const TipoEventos = () => {
   }
 
   // apaga o tipo de   evento na api
-  async function handleDelete(idTipoEvento) {
+  async function handleDelete(idTipoEvento, titulo) {
 
     if (window.confirm("Deseja realmente excluir ?")) {
       try {
         const promisse = await api.delete(`${eventsTypeResource}/${idTipoEvento}`)
         
         if (promisse.status == 204) {
-          alert("Cadastro apagado com sucesso!")
+
+          const buscaEventos = await api.get(eventsTypeResource)
+          
+          setTipoEventos(buscaEventos.data)
+
+          setNotifyUser({
+            titleNote: "Sucesso",
+            textNote: `${titulo} excluido com sucesso`,
+            imgIcon: "success",
+            imgAlt: "Imagem de ilustracao de sucesso. Moca segurando um balao com simbolo de confirmacao ok",
+            showMessage: true
+          });
         }
       } catch (error) {
         console.log("Deu erro ai", error);
@@ -86,6 +110,7 @@ const TipoEventos = () => {
 
   return (
     <>
+    {<Notifcation {...notifyUser} setNotifyUser={setNotifyUser}/>}
       <MainContent>
         <section className="cadastro-evento-section">
           <Container>
