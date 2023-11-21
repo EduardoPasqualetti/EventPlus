@@ -9,9 +9,13 @@ import Container from "../../components/Container/Container";
 import Titulo from "../../components/Titulo/Titulo";
 import api from "../../Services/Service";
 import { nextEventsResource } from "../../Services/Service";
+import Notification from "../../components/Notification/Notification";
 
 const HomePage = () => {
+
+  const [notifyUser, setNotifyUser] = useState();
   const [nextEvents, setNextEvents] = useState([]);
+  
   useEffect(() => {
     async function getNextEvents() {
       try {
@@ -20,7 +24,14 @@ const HomePage = () => {
 
         setNextEvents(dados);
       } catch (error) {
-        alert("Deu ruim na API");
+        setNotifyUser({
+          titleNote: "Erro",
+          textNote: `Nao foi possivel carregar os proximos eventos`,
+          imgIcon: "danger",
+          imgAlt:
+            "Imagem de ilustracao de erro. Rapaz segurando um balao com simbolo",
+          showMessage: true,
+        });
       }
     }
     getNextEvents();
@@ -28,6 +39,7 @@ const HomePage = () => {
 
   return (
     <div>
+      {<Notification {...notifyUser} setNotifyUser={setNotifyUser} />}
       <MainContent>
         <Banner />
 
