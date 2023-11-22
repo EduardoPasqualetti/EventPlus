@@ -67,7 +67,7 @@ export const Select = ({
       <option value="">Tipo Evento</option>
       {options.map((o) => {
         return (
-          <option key={Math.random()} value={o.value}>{o.text}</option>
+          <option key={Math.random()} value={o.value} /*idTipoEvento*/>{o.text}/*titulo*/</option>
         );
       })}
     </select>
