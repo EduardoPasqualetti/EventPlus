@@ -12,7 +12,7 @@ import {
 } from "../../components/FormComponents/FormComponents";
 import api, {
   eventsResource,
-  eventsTypeResource,
+  eventsTypeResource
 } from "../../Services/Service";
 import Notification from "../../components/Notification/Notification";
 import Table from "./TableE/TableE";
@@ -20,6 +20,7 @@ import Table from "./TableE/TableE";
 const EventosPage = () => {
   const [notifyUser, setNotifyUser] = useState();
   const [frmEdit, setFrmEdit] = useState(false);
+  const [frmEditData, setFrmEditData] = useState({});
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [data, setData] = useState("");
@@ -34,8 +35,7 @@ const EventosPage = () => {
   useEffect(() => {
     async function loadEvents() {
       try {
-        const retorno = await api.get(eventsResource);
-        setEventos(retorno.data);
+       updateApi();
       } catch (error) {
         console.log("erro na api");
         console.log(error);
@@ -57,10 +57,15 @@ const EventosPage = () => {
 
   function dePara(retornoApi) {
     let arrayOptions = [];
-    retornoApi.forEach(e => {
-      arrayOptions.push({ value: e.idTipoEvento, text: e.titulo})
+    retornoApi.forEach((e) => {
+      arrayOptions.push({ value: e.idTipoEvento, text: e.titulo });
     });
     return arrayOptions;
+  }
+
+  async function updateApi() {
+    const buscaEventos = await api.get(eventsResource);
+    setEventos(buscaEventos.data);
   }
 
   async function handleSubmit(e) {
@@ -72,26 +77,32 @@ const EventosPage = () => {
         dataEvento: data,
         descricao: descricao,
         idTipoEvento: idTipoEvento,
-        idInstituicao: idInstituicao,
+        idInstituicao: idInstituicao
       });
       setNome("");
       setDescricao("");
       setData("");
       setTipoEvento("");
 
-      const buscaEventos = await api.get(eventsResource);
-      setEventos(buscaEventos.data);
+      updateApi();
 
       setNotifyUser({
         titleNote: "Sucesso",
-        textNote: `${nome} Cadastrado com sucesso`,
+        textNote: `Evento ${nome} Cadastrado com sucesso`,
         imgIcon: "success",
         imgAlt:
           "Imagem de ilustracao de sucesso. Moca segurando um balao com simbolo de confirmacao ok",
         showMessage: true,
       });
     } catch (error) {
-      console.log(error);
+      setNotifyUser({
+        titleNote: "Erro",
+        textNote: `erro ao tentar cadastrar`,
+        imgIcon: "danger",
+        imgAlt:
+          "Imagem de ilustracao de erro. Rapaz segurando um balao com simbolo",
+        showMessage: true,
+      });
     }
   }
   async function handleUpdate(e) {
@@ -102,29 +113,29 @@ const EventosPage = () => {
         nomeEvento: nome,
         dataEvento: data,
         descricao: descricao,
-        idTipoEvento: tipoEvento,
-        idInstituicao: idInstituicao,
+        idTipoEvento: idTipoEvento,
+        idInstituicao: idInstituicao
       });
 
       if (retorno.status === 204) {
         setNotifyUser({
           titleNote: "Sucesso",
-          textNote: `Atualizado com sucesso`,
+          textNote: `Evento ${nome} Atualizado com sucesso`,
           imgIcon: "success",
           imgAlt:
             "Imagem de ilustracao de sucesso. Moca segurando um balao com simbolo de confirmacao ok",
           showMessage: true,
         });
 
-        const buscaEventos = await api.get(eventsResource);
-        setEventos(buscaEventos.data);
+        updateApi();
 
         editActionAbort();
       }
     } catch (error) {
+      console.log(error);
       setNotifyUser({
         titleNote: "Erro",
-        textNote: `erro no atualizar`,
+        textNote: `erro ao tentar atualizar`,
         imgIcon: "danger",
         imgAlt:
           "Imagem de ilustracao de erro. Rapaz segurando um balao com simbolo",
@@ -138,8 +149,7 @@ const EventosPage = () => {
       try {
         const promisse = await api.delete(`${eventsResource}/${idEvento}`);
         if (promisse.status === 204) {
-          const buscaEventos = await api.get(eventsResource);
-          setEventos(buscaEventos.data);
+          updateApi();
 
           setNotifyUser({
             titleNote: "Sucesso",
@@ -165,7 +175,7 @@ const EventosPage = () => {
       setNome(retorno.data.nomeEvento);
       setDescricao(retorno.data.descricao);
       setData(retorno.data.dataEvento.slice(0,10));
-      console.log(retorno.data);
+      setIdTipoEvento(retorno.data.idTipoEvento)
     } catch (error) {}
   }
 
@@ -219,10 +229,10 @@ const EventosPage = () => {
                       name={"tipoEvento"}
                       required={"required"}
                       value={idTipoEvento}
+                      options={dePara(tipoEvento)}
                       manipulationFunction={(e) => {
                         setIdTipoEvento(e.target.value);
                       }}
-                      options={dePara(tipoEvento)}
                     />
                     <Input
                       id="Data"
@@ -267,6 +277,16 @@ const EventosPage = () => {
                         setDescricao(e.target.value);
                       }}
                     />
+                    <Select
+                      id="TipoEvento"
+                      name={"tipoEvento"}
+                      required={"required"}
+                      options={dePara(tipoEvento)}
+                      value={idTipoEvento}
+                      manipulationFunction={(e) => {
+                        setIdTipoEvento(e.target.value);
+                      }}
+                    />
                     <Input
                       id="Data"
                       placeholder="Data"
@@ -278,7 +298,6 @@ const EventosPage = () => {
                         setData(e.target.value);
                       }}
                     />
-
 
                     <Button
                       textButton="Atualizar"
