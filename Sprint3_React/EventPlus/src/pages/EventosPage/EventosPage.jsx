@@ -16,14 +16,18 @@ import api, {
 } from "../../Services/Service";
 import Notification from "../../components/Notification/Notification";
 import Table from "./TableE/TableE";
+import Spinner from "../../components/Spinner/Spinner"
 
 const EventosPage = () => {
   const [notifyUser, setNotifyUser] = useState();
+  const [showSpinner, setShowSpinner] = useState(false)
+
   const [frmEdit, setFrmEdit] = useState(false);
-  const [frmEditData, setFrmEditData] = useState({});
+
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [data, setData] = useState("");
+
   const [eventos, setEventos] = useState([]);
   const [idEvento, setIdEvento] = useState(null);
 
@@ -34,24 +38,42 @@ const EventosPage = () => {
 
   useEffect(() => {
     async function loadEvents() {
+      setShowSpinner(true)
       try {
        updateApi();
       } catch (error) {
-        console.log("erro na api");
-        console.log(error);
+        setNotifyUser({
+          titleNote: "Erro",
+          textNote: "Erro na operação. Verifique a conexão com a internet.",
+          imgIcon: "danger",
+          imgAlt:
+            "Imagem de ilustração de erro. Rapaz segurando um balao com simbolo x.",
+          showMessage: true,
+        });
       }
+      setShowSpinner(false)
     }
     loadEvents();
   }, []);
 
   useEffect(() => {
     async function loadEventsType() {
+      setShowSpinner(true)
       try {
         const retorno = await api.get(eventsTypeResource);
         setTipoEvento(retorno.data)
       } catch (error) {
-        
-      }}
+        setNotifyUser({
+          titleNote: "Erro",
+          textNote: "Erro na operação. Verifique a conexão com a internet.",
+          imgIcon: "danger",
+          imgAlt:
+            "Imagem de ilustração de erro. Rapaz segurando um balao com simbolo x.",
+          showMessage: true,
+        });
+      }
+      setShowSpinner(false)
+    }
       loadEventsType();
   },[])
 
@@ -63,6 +85,7 @@ const EventosPage = () => {
     return arrayOptions;
   }
 
+
   async function updateApi() {
     const buscaEventos = await api.get(eventsResource);
     setEventos(buscaEventos.data);
@@ -70,6 +93,7 @@ const EventosPage = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    setShowSpinner(true)
 
     try {
       await api.post(eventsResource, {
@@ -82,7 +106,7 @@ const EventosPage = () => {
       setNome("");
       setDescricao("");
       setData("");
-      setTipoEvento("");
+
 
       updateApi();
 
@@ -104,9 +128,11 @@ const EventosPage = () => {
         showMessage: true,
       });
     }
+    setShowSpinner(false)
   }
   async function handleUpdate(e) {
     e.preventDefault();
+    setShowSpinner(true)
 
     try {
       const retorno = await api.put(eventsResource + "/" + idEvento, {
@@ -142,9 +168,11 @@ const EventosPage = () => {
         showMessage: true,
       });
     }
+    setShowSpinner(false)
   }
 
   async function handleDelete(idEvento, nome) {
+    setShowSpinner(true)
     if (window.confirm("Deseja realmente excluir ?")) {
       try {
         const promisse = await api.delete(`${eventsResource}/${idEvento}`);
@@ -163,12 +191,14 @@ const EventosPage = () => {
       } catch (error) {
         console.log(error);
       }
-    }
+    } 
+    setShowSpinner(false)
   }
 
   async function showUpdateForm(idElement) {
     setFrmEdit(true);
     setIdEvento(idElement);
+    setShowSpinner(true)
 
     try {
       const retorno = await api.get(`${eventsResource}/${idElement}`);
@@ -177,6 +207,7 @@ const EventosPage = () => {
       setData(retorno.data.dataEvento.slice(0,10));
       setIdTipoEvento(retorno.data.idTipoEvento)
     } catch (error) {}
+    setShowSpinner(false)
   }
 
   async function editActionAbort() {
@@ -190,6 +221,7 @@ const EventosPage = () => {
   return (
     <div>
       {<Notification {...notifyUser} setNotifyUser={setNotifyUser} />}
+      {showSpinner ? < Spinner /> : null}
       <MainContent>
         <section className="cadastro-evento-section">
           <Container>
