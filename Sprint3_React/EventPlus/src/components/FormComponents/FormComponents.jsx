@@ -9,7 +9,7 @@ export const Input = ({
   name,
   placeholder,
   manipulationFunction,
-  additionalCLass = ""
+  additionalClass = ""
 }) => {
   return (
     <input
@@ -17,7 +17,7 @@ export const Input = ({
       id={id}
       value={value}
       required={required ? "required" : ""}
-      className={`input-component ${additionalCLass}`}
+      className={`input-component ${additionalClass}`}
       name={name}
       placeholder={placeholder}
       onChange={manipulationFunction}

@@ -15,7 +15,10 @@ export const nextEventsResource = 'Evento/ListarProximos'
 */
 export const eventsTypeResource = '/TiposEvento'
 
-
+/** 
+* Route for Login
+*/
+export const loginResource = '/Login'
 
 
 const apiPort = '5000'

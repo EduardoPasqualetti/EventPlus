@@ -106,6 +106,7 @@ const EventosPage = () => {
       setNome("");
       setDescricao("");
       setData("");
+      setTipoEvento([])
 
 
       updateApi();
