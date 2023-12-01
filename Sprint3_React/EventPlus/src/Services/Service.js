@@ -20,6 +20,8 @@ export const eventsTypeResource = '/TiposEvento'
 */
 export const loginResource = '/Login'
 
+export const InstituicaoResource = '/Instituicao'
+
 
 const apiPort = '5000'
 const localApiUrl = `http://localhost:${apiPort}/api`

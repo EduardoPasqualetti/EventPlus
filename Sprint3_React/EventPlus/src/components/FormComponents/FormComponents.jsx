@@ -54,6 +54,7 @@ export const Select = ({
   manipulationFunction,
   additionalClass,
   value,
+  title
 }) => {
   return (
     <select
@@ -63,8 +64,9 @@ export const Select = ({
       className={`input-component ${additionalClass}`}
       value={value}
       onChange={manipulationFunction}
+      title={title}
     >
-      <option value="">Tipo Evento</option>
+      <option value="">{title}</option>
       {options.map((o) => {
         return (
           <option key={Math.random()} value={o.value}>{o.text}</option>

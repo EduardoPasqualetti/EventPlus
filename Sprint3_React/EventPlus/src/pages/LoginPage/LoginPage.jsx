@@ -5,13 +5,15 @@ import { Input, Button } from "../../components/FormComponents/FormComponents";
 import loginImage from "../../assets/images/login.svg";
 import api from "../../Services/Service";
 import {loginResource} from "../../Services/Service";
-import { UserContext, userDecodeToken } from "../../context/AuthContext";
+import { UserContext, userDecodeToken } from "../../context/AuthContext"; 
+import {useNavigate} from "react-router-dom"
 
 import "./LoginPage.css"
 
 const LoginPage = () => {
-  const [user, setUser] = useState({email: "", senha: ""})
+  const [user, setUser] = useState({email: "admin@admin", senha: "admin"})
   const { userData, setUserData } = useContext(UserContext)
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -27,8 +29,8 @@ const LoginPage = () => {
             setUserData(userFullToken);
 
             localStorage.setItem("token", JSON.stringify(userFullToken))
+            navigate("/")
             console.log(userFullToken);
-
         } catch (error) {
             alert("Verifique os dados e a conexao com a internet")
             console.log("erro nos dados de login");
