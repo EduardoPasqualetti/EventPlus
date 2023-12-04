@@ -1,4 +1,4 @@
-export const dateFormatDbTOView = date => {
+export const dateFormatDbToView = date => {
     // 2024-02-04T00:00:00 para 04/02/2024
 
     date = date.substr(0, 10); // retorna apenas a data
