@@ -12,18 +12,14 @@ const Nav = ({ exibeNavbar, setExibeNavbar }) => {
 
   return (
     <nav className={`navbar ${exibeNavbar ? "exibeNavbar" : ""}`}>
-      {/* Renderiza a barra de navegação, a classe CSS 'exibeNavbar' é adicionada se exibeNavbar for verdadeiro */}
-
       <span
+        className="navbar__close"
         onClick={() => {
           setExibeNavbar(false);
         }}
-        className="navbar__close"
       >
-        {" "}
-        X{" "}
+        x
       </span>
-      {/* Renderiza um botão 'X' para fechar a barra de navegação ao ser clicado */}
 
       <Link to="/" className="eventlogo">
         <img
@@ -32,38 +28,28 @@ const Nav = ({ exibeNavbar, setExibeNavbar }) => {
           alt="Event Plus Logo"
         />
       </Link>
-      {/* Renderiza um link para a página inicial, contendo o logotipo, cuja imagem muda com base na largura da janela */}
 
       <div className="navbar__items-box">
-        {/* Renderiza uma caixa que contém links para diferentes páginas */}
         <Link to="/" className="navbar__item">
           Home
-        </Link>{" "}
-        {/* Link para a página inicial */}
+        </Link>
+
         {userData.nome && userData.role === "Administrador" ? (
           <>
-            <Link to="/tipo-eventos" className="navbar__item">
+            <Link className="navbar__item" to="/tipo-eventos">
               Tipos de Evento
             </Link>
-            <Link to="/eventos" className="navbar__item">
+            <Link className="navbar__item" to="/eventos">
               Eventos
             </Link>
-            <Link to="/instituicoes" className="navbar__item">
-              Instituicoes
-            </Link>
           </>
-        ) : 
-             userData.nome && userData.role === "Comum" ? (
-            <Link to="/eventosAluno" className="navbar__item">
+        ) : userData.nome && userData.role === "Comum" ? (
+          <Link className="navbar__item" to="/eventosAluno">
             Eventos Aluno
           </Link>
         ) : null}
-            
-       
 
-        {/* <Link to="/login" className="navbar__item">
-          Login
-        </Link> */}
+        
       </div>
     </nav>
   );

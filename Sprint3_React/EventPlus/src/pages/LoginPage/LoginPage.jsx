@@ -40,9 +40,6 @@ const LoginPage = () => {
         alert("Preencha os dados corretamente")
     }
 
-    console.log("dados de login");
-    console.log(user);
-    console.log();
   }
 
 

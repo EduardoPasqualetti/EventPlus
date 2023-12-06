@@ -6,6 +6,16 @@ import axios from 'axios'
 export const eventsResource = '/Evento'
 
 /** 
+* Route for my Presences Event
+*/
+export const myEventsResource = '/PresencasEvento/ListarMinhas';
+
+/** 
+* Route for Presences Event
+*/
+export const presencesEventResource = '/PresencasEvento'
+
+/** 
 * Route for the Next Events
 */
 export const nextEventsResource = 'Evento/ListarProximos'

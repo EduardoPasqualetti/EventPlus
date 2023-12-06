@@ -39,13 +39,13 @@ const Modal = ({
 
         <Input
           placeholder="Escreva seu comentário..."
-          className="comentary__entry"
+          additionalClass="comentary__entry"
         />
 
         <Button
-          buttonText="Comentar"
-          className="comentary__button"
-          onClick={fnNewCommentary}
+          textButton="Comentar"
+          additionalClass="comentary__button"
+          manipulationFunction={fnNewCommentary}
         />
       </article>
     </div>
