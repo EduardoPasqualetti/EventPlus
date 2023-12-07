@@ -8,7 +8,7 @@ const App = () => {
     useEffect(() => {
       const token = localStorage.getItem("token");
       setUserData( token === null ? {} : JSON.parse(token))
-    })
+    },[])
 
   return (
     <UserContext.Provider value={ {userData, setUserData} }>

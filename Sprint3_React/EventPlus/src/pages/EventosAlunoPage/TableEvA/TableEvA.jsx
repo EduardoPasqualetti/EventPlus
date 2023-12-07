@@ -1,6 +1,7 @@
 import React from "react";
 import comentaryIcon from "../../../assets/images/comentary-icon.svg";
 import ToggleSwitch from "../../../components/Toggle/Toggle";
+import { dateFormatDbToView } from "../../../Utils/stringFunctions";
 // importa a biblioteca de tootips ()
 import "react-tooltip/dist/react-tooltip.css";
 
@@ -52,7 +53,7 @@ const Table = ({ dados, fnConnect = null, fnShowModal = null }) => {
                 {e.titulo}
               </td> */}
               <td className="tbal-data__data tbal-data__data--big tbal-data__btn-actions">
-                {new Date(e.dataEvento).toLocaleDateString()}
+                {dateFormatDbToView(e.dataEvento)}
               </td>
 
               <td className="tbal-data__data tbal-data__data--big tbal-data__btn-actions">
@@ -64,13 +65,8 @@ const Table = ({ dados, fnConnect = null, fnShowModal = null }) => {
                   onClick={fnShowModal}
                 />
 
-                <ToggleSwitch toggleActive={e.situacao} manipulationFunction={() => {
-                    fnConnect(
-                      e.idEvento,
-                      e.situacao ? "unconnect" : "connect",
-                      e.situacao ? e.idPresencaEvento : null
-                    );
-                  }}
+                <ToggleSwitch toggleActive={e.situacao}  manipulationFunction={() => {
+                  fnConnect(e.idEvento, e.situacao ? "unconnect" : "connect", e.idPresencaEvento )} }
                 />
               </td>
             </tr>

@@ -50,9 +50,9 @@ export const Select = ({
   required,
   id,
   name,
-  options,
+  options = [],
   manipulationFunction,
-  additionalClass,
+  additionalClass = "",
   value,
   title
 }) => {
