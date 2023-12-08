@@ -30,18 +30,18 @@
 
 .toggle__switch-check { display: none;}
 
-.toggle--active{
-/* justify-content: flex-end; */
-border: 2px solid #B51D44;
-background-color: #B51D44;
-}
 
-.toogle___switch--active{
-  left: auto;
+.toggle--active {
+border: 2px solid #B51D44;
+  background-color: #B51D44;
+}
+.toggle___switch--active {
+left: auto;
   right: 1px;
   background-color: #fff;
   border-color: #fff;
 }
+
 
 .switch {
   position: relative;

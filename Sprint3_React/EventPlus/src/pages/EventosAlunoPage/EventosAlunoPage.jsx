@@ -11,7 +11,7 @@ import api, {
   myEventsResource,
   presencesEventResource,
   myComentaryEventResource,
-  comentaryEventResource
+  comentaryEventResource,
 } from "../../Services/Service";
 import Notification from "../../components/Notification/Notification";
 
@@ -35,11 +35,12 @@ const EventosAlunoPage = () => {
 
   // Recupera os dados globais do usuário
   const { userData, setUserData } = useContext(UserContext);
+  const [idEvento, setIdEvento] = useState();
+  const [comentario, setComentario] = useState();
 
   // UseEffect para carregar os eventos baseado no tipo selecionado
   useEffect(() => {
     loadEventsType();
-    
   }, [tipoEvento, userData.userId]);
 
   // Função para carregar os tipos de eventos ao montar a página
@@ -119,23 +120,42 @@ const EventosAlunoPage = () => {
   }
 
   // Função para exibir ou esconder o modal
-  const showHideModal = () => {
+  const showHideModal = (idEvent) => {
     setShowModal(showModal ? false : true);
+
+    setUserData({ ...userData, idEvento: idEvent });
   };
 
   // Função para carregar o comentário do usuário
-  async function loadMyCommentary(idComentary) {
-    try {
-      const promise = await api.get(myComentaryEventResource  + "/" + userData.userId)
-      console.log(promise.data);
-    } catch (error) {
-      
-    }
-  }
+  const loadMyCommentary = async (idUsuario, idEvento) => {
+    const promise = await api.get(
+      `${myComentaryEventResource}?idUser=${idUsuario}&idEvent=${idEvento}`
+    );
+    console.log(promise.data.descricao);
+    setComentario(promise.data.descricao);
+  };
 
-  async function postMyCommentary() {
-    return ".";
-  }
+  const postMyCommentary = async (descricao, idUsuario, idEvento) => {
+    console.clear();
+    console.log(descricao, idUsuario, idEvento);
+
+    try {
+      const promise = await api.post(comentaryEventResource, {
+        descricao: descricao,
+        exibe: true,
+        idUsuario: idUsuario,
+        idEvento: idEvento,
+      });
+
+      if (promise.status === 200) {
+        const promise = await api.get(
+          `${myComentaryEventResource}?idUser=${idUsuario}&idEvent=${idEvento}`
+        );
+
+        setComentario(promise.data.descricao);
+      }
+    } catch (error) {}
+  };
 
   // Função para remover o comentário
   const commentaryRemove = () => {
@@ -143,37 +163,41 @@ const EventosAlunoPage = () => {
   };
 
   // Função para conectar evento
-  async function handleConnect(eventId, whatTheFunction, presencaId = null) {
+  async function handleConnect(
+    idEvent,
+    whatTheFunction,
+    idPresencaEvento = null
+  ) {
+    // conecta o usuário e atualiza a tela
     if (whatTheFunction === "connect") {
       try {
         const promise = await api.post(presencesEventResource, {
           situacao: true,
           idUsuario: userData.userId,
-          idEvento: eventId,
+          idEvento: idEvent,
         });
 
         if (promise.status === 201) {
           loadEventsType();
-          alert("Presenca confirmada");
+          alert("Presença confirmada, parabéns");
         }
       } catch (error) {
+        console.log("Erro ao conectar");
         console.log(error);
       }
-      // return;
-    } else if (whatTheFunction === "unconnect") {
-      try {
-        const rota = await api.delete(
-          presencesEventResource + "/" + presencaId
-        );
-
-        if (rota.status === 204) {
-          loadEventsType();
-          alert("desconectado");
-        }
-      } catch (error) {
-        console.log(error);
-      }
+      return;
     }
+    // try {
+    //   const unconnected = await api.delete(`${presencesEventResource}/${idPresencaEvento}`)
+
+    //   if (unconnected.sttus === 204) {
+    //     loadEventsType()
+    //     alert("Desconectado")
+    //   }
+    // } catch (error) {
+    //   console.log("erro ao desconectar");
+    //   console.log(error);
+    // }
   }
 
   const notifySuccess = (textNote) => {
@@ -230,10 +254,8 @@ const EventosAlunoPage = () => {
           {/* Tabela de eventos */}
           <Table
             dados={eventos}
-            fnConnect={handleConnect}
-            fnShowModal={() => {
-              showHideModal();
-            }}
+            fnConnect={handleConnect()}
+            fnShowModal={showHideModal}
           />
         </Container>
       </MainContent>
@@ -244,12 +266,12 @@ const EventosAlunoPage = () => {
       {/* Modal para remoção de comentário */}
       {showModal ? (
         <Modal
-          userId={userData.userId}
+          // userId={userData.userId}
           showHideModal={showHideModal}
           fnGet={loadMyCommentary}
           fnPost={postMyCommentary}
           fnDelete={commentaryRemove}
-          
+          comentaryText={comentario}
         />
       ) : null}
     </>
