@@ -12,7 +12,7 @@ const Toggle = ({ manipulationFunction = null, toggleActive = false }) => {
         className={`toggle ${toggleActive ? "toggle--active" : ""}`}
         htmlFor="switch-check"
         onClick={manipulationFunction}
-        key={Math.random()}
+        
       >
         <div
           className={`toggle___switch ${

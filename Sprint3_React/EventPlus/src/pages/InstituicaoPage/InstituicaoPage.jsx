@@ -294,7 +294,7 @@ useEffect(() => {
         </section>
         <section className="lista-eventos-section">
           <Container>
-            <Title titleText={"Lista Instituicoes"} color="white" />
+            <Title titleText={"Instituicoes"} color="white" />
             <Table
               dados={Instituicoes}
               fnUpdate={showUpdateForm}

@@ -36,6 +36,7 @@ const EventosAlunoPage = () => {
   // Recupera os dados globais do usuário
   const { userData, setUserData } = useContext(UserContext);
   const [idEvento, setIdEvento] = useState();
+  const [idComentario,setIdComentario] = useState()
   const [comentario, setComentario] = useState();
 
   // UseEffect para carregar os eventos baseado no tipo selecionado
@@ -60,12 +61,6 @@ const EventosAlunoPage = () => {
         );
         setEventos(markedEvents);
 
-        console.clear();
-        console.log("Todos eventos");
-        console.log(returnAllEvents.data);
-
-        console.log("eventos marcados");
-        console.log(markedEvents.data);
       } catch (error) {
         notifyError("Erro na API ");
       }
@@ -75,7 +70,7 @@ const EventosAlunoPage = () => {
           `${myEventsResource}/${userData.userId}`
         );
         console.clear();
-        console.log(returnEvents.data);
+ 
         // Verifique a estrutura dos dados retornados para acessar corretamente os eventos
         const arrEvents = [];
 
@@ -131,13 +126,12 @@ const EventosAlunoPage = () => {
     const promise = await api.get(
       `${myComentaryEventResource}?idUser=${idUsuario}&idEvent=${idEvento}`
     );
-    console.log(promise.data.descricao);
     setComentario(promise.data.descricao);
+    setIdComentario(promise.data.idComentarioEvento)
   };
 
   const postMyCommentary = async (descricao, idUsuario, idEvento) => {
     console.clear();
-    console.log(descricao, idUsuario, idEvento);
 
     try {
       const promise = await api.post(comentaryEventResource, {
@@ -158,8 +152,15 @@ const EventosAlunoPage = () => {
   };
 
   // Função para remover o comentário
-  const commentaryRemove = () => {
-    alert("Remover o comentário");
+  const commentaryRemove = async () => {
+    try {
+      const request = await api.delete(`${comentaryEventResource}/${idComentario}`)
+
+      setComentario("Comentário Deletado!")
+
+  } catch (error) {
+    console.log(error);
+  }
   };
 
   // Função para conectar evento
@@ -174,30 +175,28 @@ const EventosAlunoPage = () => {
         const promise = await api.post(presencesEventResource, {
           situacao: true,
           idUsuario: userData.userId,
-          idEvento: idEvent,
+          idEvento: idEvent
         });
 
         if (promise.status === 201) {
           loadEventsType();
-          alert("Presença confirmada, parabéns");
+          notifySuccess("Presença Confirmada!")
         }
       } catch (error) {
-        console.log("Erro ao conectar");
         console.log(error);
       }
       return;
     }
-    // try {
-    //   const unconnected = await api.delete(`${presencesEventResource}/${idPresencaEvento}`)
+    try {
+      const unconnected = await api.delete(`${presencesEventResource}/${idPresencaEvento}`)
 
-    //   if (unconnected.sttus === 204) {
-    //     loadEventsType()
-    //     alert("Desconectado")
-    //   }
-    // } catch (error) {
-    //   console.log("erro ao desconectar");
-    //   console.log(error);
-    // }
+      if (unconnected.status === 204) {
+        loadEventsType()
+        notifySuccess("Desconectado com sucesso!")
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const notifySuccess = (textNote) => {
@@ -254,7 +253,7 @@ const EventosAlunoPage = () => {
           {/* Tabela de eventos */}
           <Table
             dados={eventos}
-            fnConnect={handleConnect()}
+            fnConnect={handleConnect}
             fnShowModal={showHideModal}
           />
         </Container>
